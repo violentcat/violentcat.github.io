@@ -1,8 +1,8 @@
-title: Keith's Blog
+title: Posts
 description: Personal Projects and News
 author: Keith Nicholson
 github: https://github.com/violentcat
-about: Coder, mainly using C/C++. Working my way through a long list of personal projects on subjects I find interesting.
+about: Coder, mainly using C/C++. Rendering, emulation and more. I like making things.
 disqus_shortname: ""
 google_analytics: UA-XXXXXXXX-Y
 
@@ -16,9 +16,9 @@ collections:
 
 social:
     - icon: fa-twitter
-      link: "#"
+      link: "https://twitter.com/keffer"
     - icon: fa-linkedin
-      link: "#"
+      link: "https://uk.linkedin.com/in/keith-nicholson-81375595"
     - icon: fa-github
       link: "https://github.com/violentcat"
 
@@ -34,7 +34,7 @@ urls:
     - text: XML Feed
       url: /feed.xml
 
-url: "https://violentcat.github.io"
+url: "http://violentcat.co.uk"
 baseurl: ""
 paginate: 20
 per_page: 20
