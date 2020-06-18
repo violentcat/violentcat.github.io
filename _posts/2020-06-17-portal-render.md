@@ -9,6 +9,8 @@ In this post I want to cover one element of the work I did to implement a portal
 
 First some background on the specifics of how a portal based engine (Duke Nukem 3d, Descent) works, and how it is different to a BSP tree implementation as used by Doom. Whichever way you look at it these are both very old styles of creating a 3D environment for a game but, by making some basic assumptions about the nature of the world, the rendering could be simplied to the point that they would run at reasonable frame rates on an early 90s PC. I'm not at all experienced in 3D rendering so it didn't seem unreasonable to begin my education with the operation of an early 3D game engine.
 
+#### Portal based rendering
+
 I started with a portal based engine, mainly because that was the focus of the material that gave me the inspiration to start this project [Creating a Doom-style 3D engine in C][bisqwit-video].
 With portals, the entire 'world' is divided into [convex polygons][wiki-page]. The most important feature of a convex polygon from the point of view of a renderer is that, from any point within the polygon, all wall segments are completely visible. And because no part of any wall can be occluded, there is no need to implement a z-buffer or perform expensive per-pixel visibility tests.
 
@@ -30,6 +32,8 @@ So, the most important piece of information for each polygon (or sector) is, whi
 
 Sectors and wall portals aren't just used for rendering though. Movement of the player through the world also makes use of this information. When the player approaches a wall its a fairly trivial collision test to determine whether to stop the player at the wall, or let them pass through into the neighbouring sector. 
 
+#### BSP tree rendering
+
 Next we look at the BSP tree mechanism used by the Doom engine. The BSP (or Binary Space Partition) is a tree structure that represents subdivisions of a space into 2 smaller spaces, and when this is applied recursively to a level it can be used to decompose the structure down until the leaves of the BSP tree are convex polygons.
 
 
@@ -46,6 +50,8 @@ For example, with the BSP tree there is no need to retain information about whic
 
 That's as far as I'm going to go in this post about the different engines used at that time. There is plenty of information out there to cover each technique in far more detail.
 
+#### How to make portals from a BSP
+
 The whole point of this post, however, is to talk about how to generate a level that is suitable for a portal based renderer, when the starting point is BSP tree based (Doom level).
 As I already mentioned at the start, the project I was working on was to implement a portal renderer. 
 
@@ -60,6 +66,8 @@ In the WAD format, there are elements called sectors. But these are only there t
 ![sectors diagram](https://raw.githubusercontent.com/violentcat/violentcat.github.io/master/static/img/_posts/sectorsview.png)
 
 <br>
+#### What to try next
+
 Then we move onto elements in the WAD called sub-sectors. These are definitely convex polygons! .. at least in theory.
 The result of traversing the 2D BSP tree is arrival at a leaf node that represents a sub-sector (the node literally contains the index for a sub-sector in the WAD). The problem is, because the Doom engine just uses this information for rendering, the sub-sector often only contains the lines of the convex polygon that have a texture attached to them. So you can easily end up with a sub-sector that only explicitly defines 1 or 2 lines of the convex polygon. That doesn't quite work either then.
 
@@ -118,6 +126,8 @@ As I mentioned there are a couple of edge conditions that mean this isn't a perf
 If these do occur they generally exist in very limited areas of the map, and for now they just get discarded. I might come back and fix these one day, seeing as the algorithm already detects occurances.
 
 <br>
+#### Fixing everything else
+
 We now have a complete set of convex polygon 'sub-sectors' to define the renderable area of the level.
 And this is where we find the next problem with the data. In the Doom WAD file, actual walls to render are defined by a seg (or segment). A segment defines a line, which is part of the sub-sector, along with details of the texture data that should be rendered on that bit of wall. Because of the way we've generated the sub-sector lines by clipping against BSP partition lines, we can end up losing vital information where points on the original sub-sector definition were colinear.
 
@@ -149,11 +159,13 @@ However, what happens going the other way is undefined. If a wall can only conta
 For every wall in the sub-sector we check every vertex (in every other sub-sector of the level) to see if it lies on the wall.
 If we find a vertex that does lie on the wall, give or take some tolerance, then we add that vertex to the current sub-sector. Repeat that for all vertexes on all sub-sector walls.
 
-The result should be portal walls that always have a 1-1 mapping between 2 sub-sectors.
+The result should be portal walls that always have a 1-1 mapping between 2 connected sub-sectors. See the additional vertexes that have been created.
 
 ![unique portal](https://raw.githubusercontent.com/violentcat/violentcat.github.io/master/static/img/_posts/uniqueportal.png)
 
 <br>
+#### Summary
+
 And that's about it. All the information is there to allow navigation around the map and the renderer always know which sector (or sub-sector in Doom terminology) the player is in. Also, once segments have been associated with sector walls there is enough information to display the level from the point of view of the player. A Doom level rendered with a Portal Rendering system.
 
 ![level display](https://raw.githubusercontent.com/violentcat/violentcat.github.io/master/static/img/_posts/doome1m1.png)
