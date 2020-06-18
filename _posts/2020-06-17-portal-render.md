@@ -2,7 +2,7 @@
 layout: post
 title:  "Creating Portals from BSP Trees"
 date:   2020-06-17 00:30:00 +0000
-categories: [cplusplus,rendering]
+categories: [cplusplus, rendering]
 ---
 
 In this post I want to cover one element of the work I did to implement a portal renderer. Head over to the [repo][portal-git] for a overview of the project and a look at the end result.
@@ -12,7 +12,7 @@ First some background on the specifics of how a portal based engine (Duke Nukem 
 I started with a portal based engine, mainly because that was the focus of the material that gave me the inspiration to start this project [Creating a Doom-style 3D engine in C][bisqwit-video].
 With portals, the entire 'world' is divided into [convex polygons][wiki-page]. The most important feature of a convex polygon from the point of view of a renderer is that, from any point within the polygon, all wall segments are completely visible. And because no part of any wall can be occluded, there is no need to implement a z-buffer or perform expensive per-pixel visibility tests.
 
-![convex diagram](https://raw.githubusercontent.com/violentcat/violentcat.github.io/master/static/img/_posts/convex.jpg)
+![convex diagram](https://raw.githubusercontent.com/violentcat/violentcat.github.io/master/static/img/_posts/convex.png)
 
 <br>
 Each wall of a polygon can be defined as either displaying a texture, or being a portal through into another connected polygon.

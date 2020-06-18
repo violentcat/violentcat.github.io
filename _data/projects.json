@@ -6,7 +6,7 @@
 		"url": "https://bitbucket.org/violentcat/chip-8/src/master/",
 		"date": "Apr 2018",
 		"tags": ["C++","Emulation"]
-	}
+	},
 	{
 		"slug": "portal-render",
 		"name": "Portal Renderer",
