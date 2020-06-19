@@ -8,7 +8,7 @@ categories: [cplusplus, rendering]
 In this post I want to cover one element of the work I did to implement a portal renderer. Head over to the [repo][portal-git] for a overview of the project and a look at the end result.
 
 First some background on the specifics of how a portal based engine (Duke Nukem 3d, Descent) works, and how it is different to a BSP tree implementation as used by Doom. Whichever way you look at it these are both very old styles of creating a 3D environment for a game but, by making some basic assumptions about the nature of the world, the rendering could be simplied to the point that they would run at reasonable frame rates on an early 90s PC. I'm not at all experienced in 3D rendering so it didn't seem unreasonable to begin my education with the operation of an early 3D game engine.
-<br>
+<br><br>
 #### Portal based rendering
 
 I started with a portal based engine, mainly because that was the focus of the material that gave me the inspiration to start this project [Creating a Doom-style 3D engine in C][bisqwit-video].
@@ -31,7 +31,7 @@ Also, the definition of 'no more to draw' is really up to the renderer.
 So, the most important piece of information for each polygon (or sector) is, which walls pass through into another sector, and information about what that sector is.
 
 Sectors and wall portals aren't just used for rendering though. Movement of the player through the world also makes use of this information. When the player approaches a wall its a fairly trivial collision test to determine whether to stop the player at the wall, or let them pass through into the neighbouring sector. 
-<br>
+<br><br>
 #### BSP tree rendering
 
 Next we look at the BSP tree mechanism used by the Doom engine. The BSP (or Binary Space Partition) is a tree structure that represents subdivisions of a space into 2 smaller spaces, and when this is applied recursively to a level it can be used to decompose the structure down until the leaves of the BSP tree are convex polygons.
@@ -49,7 +49,7 @@ There are a number of advantages and disadvantes to each system.
 For example, with the BSP tree there is no need to retain information about which sector the player is in, or perform collision tests against sector wall to know when the player moves into a different sector. It is also considered to be a simpler (and therefore almost certainly faster) mechanism for rendering. However, a portal engine has one very important advantage. It is able to support rooms on top of other rooms, and even non-euclidean geometry. This is because each sector in the level is effectively defined by its connections to its neighbouring sectors. Whereas, given a location within in a level, there is only ever a single solution within a 2D BSP tree.
 
 That's as far as I'm going to go in this post about the different engines used at that time. There is plenty of information out there to cover each technique in far more detail.
-<br>
+<br><br>
 #### How to make portals from a BSP
 
 The whole point of this post, however, is to talk about how to generate a level that is suitable for a portal based renderer, when the starting point is BSP tree based (Doom level).
