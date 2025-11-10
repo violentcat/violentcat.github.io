@@ -22,5 +22,13 @@
 		"url": "https://bitbucket.org/violentcat/spaceinvaders/src/master/",
 		"date": "Dec 2024",
 		"tags": ["C++","Emulation"]
+	},
+	{
+		"slug": "universal-machine",
+		"name": "Universal Machine",
+		"image": "umix.png",
+		"url": "https://bitbucket.org/violentcat/universalmachine/src/master/",
+		"date": "Nov 2025",
+		"tags": ["C++","Emulation"]
 	}	
 ]
